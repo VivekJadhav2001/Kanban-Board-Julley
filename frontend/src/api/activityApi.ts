@@ -1,9 +1,10 @@
 import { axiosInstance } from './axiosInstance';
+import type { ActivityLog } from '@/types';
 
 export interface ActivityResponse {
   success: boolean;
   message: string;
-  data: { activities: unknown[] };
+  data: { activities: ActivityLog[] };
   results: number;
   pagination?: {
     page: number;
@@ -20,6 +21,6 @@ export const activityApi = {
   listForTask: (taskId: string) =>
     axiosInstance.get<ActivityResponse>(`/tasks/${taskId}/activity`),
 
-  listForBoard: (boardId: string) =>
-    axiosInstance.get<ActivityResponse>(`/boards/${boardId}/activity`),
+  listForBoard: (boardId: string, params?: { page?: number; limit?: number }) =>
+    axiosInstance.get<ActivityResponse>(`/boards/${boardId}/activity`, { params }),
 };

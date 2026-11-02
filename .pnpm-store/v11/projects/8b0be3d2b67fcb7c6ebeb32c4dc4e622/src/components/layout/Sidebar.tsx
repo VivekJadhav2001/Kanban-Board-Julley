@@ -54,11 +54,11 @@ function SidebarContent({
   };
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col overflow-y-auto overscroll-contain pb-4">
       <Link
         to="/dashboard"
         onClick={onNavigate}
-        className="flex items-center gap-3 px-2 py-1"
+        className="flex items-center gap-3 px-3 py-1.5"
       >
         <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 shadow-[0_0_24px_-4px_rgba(124,58,237,0.8)]">
           <Building2 className="h-5 w-5 text-white" />
@@ -72,7 +72,7 @@ function SidebarContent({
         </div>
       </Link>
 
-      <div className="mt-8 px-2">
+      <div className="mt-8">
         <p className="px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
           Navigate
         </p>
@@ -111,7 +111,7 @@ function SidebarContent({
         </nav>
       </div>
 
-      <div className="mt-6 px-2">
+      <div className="mt-6">
         <div className="relative overflow-hidden rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-600/15 to-transparent p-4">
           <Sparkles className="absolute -right-2 -top-2 h-14 w-14 text-violet-500/10" />
           <p className="text-xs font-semibold text-violet-200">Stay in flow</p>
@@ -121,8 +121,8 @@ function SidebarContent({
         </div>
       </div>
 
-      <div className="mt-auto border-t border-white/[0.06] p-3">
-        <div className="flex items-center gap-3 rounded-xl px-2 py-2">
+      <div className="mt-auto border-t border-white/[0.06] pt-4">
+        <div className="flex items-center gap-3 rounded-xl px-3 py-2">
           <Avatar name={user?.name} src={user?.avatar} size="md" />
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold text-white">{user?.name || 'Member'}</p>

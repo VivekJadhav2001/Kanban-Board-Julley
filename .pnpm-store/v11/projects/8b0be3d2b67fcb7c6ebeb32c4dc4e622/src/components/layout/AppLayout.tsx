@@ -36,10 +36,10 @@ export function AppLayout() {
         onMenuClick={() => setMobileOpen(true)}
       />
 
-      <div className="mx-auto flex w-full max-w-[1700px]">
+      <div className="mx-auto flex w-full max-w-[1700px] items-start">
         <Sidebar organizationId={organizationId} tenantId={tenantId} />
-        <main className="min-w-0 flex-1 px-4 pb-16 pt-5 sm:px-6 lg:px-8">
-          <div key={location.pathname} className="animate-fade-in">
+        <main className="min-h-[calc(100vh-73px)] min-w-0 flex-1 px-4 pb-20 pt-6 sm:px-6 sm:pt-8 lg:px-8 lg:pt-9">
+          <div key={location.pathname} className="w-full animate-fade-in">
             <Outlet />
           </div>
         </main>

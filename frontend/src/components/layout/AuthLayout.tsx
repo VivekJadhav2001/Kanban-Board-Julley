@@ -45,7 +45,7 @@ export function AuthLayout({ eyebrow, title, description, children, footer }: Au
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_70%)]" />
       </div>
 
-      <div className="relative mx-auto grid min-h-screen w-full max-w-6xl grid-cols-1 items-center gap-12 px-5 py-10 lg:grid-cols-[1.1fr_1fr] lg:px-8">
+      <div className="relative mx-auto grid min-h-screen w-full max-w-6xl grid-cols-1 items-center gap-10 px-5 py-10 sm:px-6 lg:grid-cols-[1.1fr_1fr] lg:gap-14 lg:px-8 lg:py-14">
         <div className="hidden lg:block">
           <Link to="/login" className="inline-flex items-center gap-3">
             <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 to-violet-700 shadow-[0_0_30px_-6px_rgba(124,58,237,0.9)]">
@@ -109,7 +109,7 @@ export function AuthLayout({ eyebrow, title, description, children, footer }: Au
         </div>
 
         <div className="mx-auto w-full max-w-md">
-          <Link to="/login" className="mb-8 flex items-center justify-center gap-3 lg:hidden">
+          <Link to="/login" className="mb-7 flex items-center justify-center gap-3 sm:mb-8 lg:hidden">
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 to-violet-700 shadow-[0_0_30px_-6px_rgba(124,58,237,0.9)]">
               <Building2 className="h-5 w-5 text-white" />
             </div>

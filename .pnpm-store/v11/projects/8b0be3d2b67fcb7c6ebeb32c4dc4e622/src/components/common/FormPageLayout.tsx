@@ -23,8 +23,8 @@ export function FormPageLayout({
   children,
 }: FormPageLayoutProps) {
   return (
-    <div className="mx-auto w-full max-w-2xl space-y-5 pb-8">
-      <div className="flex items-center justify-between gap-3">
+    <div className="mx-auto w-full max-w-2xl space-y-6 pb-12">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <Link
           to={backTo}
           className="group inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-sm font-medium text-slate-400 transition-colors hover:border-violet-500/40 hover:text-white"
@@ -35,7 +35,7 @@ export function FormPageLayout({
         <Badge variant="secondary">{eyebrow}</Badge>
       </div>
 
-      <div className="relative isolate overflow-hidden rounded-3xl border border-violet-400/15 bg-[#11111d]/95 p-5 shadow-[0_24px_80px_-24px_rgba(0,0,0,0.8)] ring-1 ring-white/[0.035] backdrop-blur-xl sm:p-8">
+      <div className="relative isolate overflow-hidden rounded-3xl border border-violet-400/15 bg-[#11111d]/95 p-6 shadow-[0_24px_80px_-24px_rgba(0,0,0,0.8)] ring-1 ring-white/[0.035] backdrop-blur-xl sm:p-8">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/50 to-transparent" />
         <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-violet-600/15 blur-3xl" />
 

@@ -1,7 +1,14 @@
 export type Role = 'ORG_ADMIN' | 'TENANT_ADMIN' | 'MEMBER';
 export type MembershipStatus = 'ACTIVE' | 'INVITED';
 export type TaskPriority = 'LOW' | 'MEDIUM' | 'HIGH';
-export type ActivityAction = 'CREATE' | 'UPDATE' | 'DELETE' | 'MOVE' | 'ASSIGN' | 'REORDER';
+export type ActivityAction =
+  | 'CREATE'
+  | 'UPDATE'
+  | 'DELETE'
+  | 'MOVE'
+  | 'ASSIGN'
+  | 'REORDER'
+  | 'COMMENT';
 
 export interface User {
   _id: string;
@@ -75,7 +82,7 @@ export interface Task {
   columnId: string;
   organizationId: string;
   tenantId: string;
-  assignedTo?: string | null;
+  assignedTo?: string | User | null;
   createdBy: string;
   priority: TaskPriority;
   position: number;
@@ -89,12 +96,29 @@ export interface ActivityLog {
   _id: string;
   organizationId: string;
   tenantId: string;
-  userId: string;
+  userId: string | User;
   boardId?: string | null;
   taskId?: string | null;
   action: ActivityAction;
   details: Record<string, unknown>;
   createdAt?: string;
+}
+
+export interface Comment {
+  _id: string;
+  taskId: string;
+  organizationId: string;
+  tenantId: string;
+  userId: User | string;
+  body: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface PopulatedMembership
+  extends Omit<Membership, 'userId' | 'tenantId'> {
+  userId: User;
+  tenantId?: (Pick<Tenant, '_id' | 'name' | 'slug'> & { _id: string }) | null;
 }
 
 export interface ApiResponse<T = unknown> {

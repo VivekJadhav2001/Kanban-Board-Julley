@@ -70,7 +70,7 @@ export default function DashboardPage() {
       {error && <ApiErrorAlert message={error} onDismiss={() => setError(null)} />}
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        <Card className="p-5">
+        <Card className="p-5 sm:p-6">
           <div className="flex items-start justify-between">
             <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-violet-500/25 bg-violet-500/15 text-violet-300">
               <OrgIcon className="h-5 w-5" />
@@ -86,7 +86,7 @@ export default function DashboardPage() {
           <p className="mt-1 text-xs text-slate-500">Spaces you belong to</p>
         </Card>
 
-        <Card className="p-5">
+        <Card className="p-5 sm:p-6">
           <div className="flex items-start justify-between">
             <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-yellow-400/25 bg-yellow-400/15 text-yellow-300">
               <Layers className="h-5 w-5" />
@@ -104,7 +104,7 @@ export default function DashboardPage() {
           </p>
         </Card>
 
-        <Card className="relative overflow-hidden p-5 sm:col-span-2 xl:col-span-1">
+        <Card className="relative overflow-hidden p-5 sm:col-span-2 sm:p-6 xl:col-span-1">
           <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-violet-600/20 blur-2xl" />
           <div className="flex items-start justify-between">
             <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-emerald-500/25 bg-emerald-500/15 text-emerald-300">
@@ -123,8 +123,8 @@ export default function DashboardPage() {
       </div>
 
       <section className="space-y-4">
-        <div className="flex items-end justify-between gap-3">
-          <div>
+        <div className="flex flex-wrap items-end justify-between gap-x-3 gap-y-2">
+          <div className="min-w-0">
             <h2 className="text-lg font-semibold tracking-tight text-white">Your organizations</h2>
             <p className="text-sm text-slate-500">Open an organization to manage its tenants.</p>
           </div>
@@ -155,7 +155,7 @@ export default function DashboardPage() {
               <Card
                 key={org._id}
                 interactive
-                className="group p-5"
+                className="group p-5 sm:p-6"
                 onClick={() => navigate(`/organization/${org._id}`)}
               >
                 <div className="flex items-start justify-between gap-3">

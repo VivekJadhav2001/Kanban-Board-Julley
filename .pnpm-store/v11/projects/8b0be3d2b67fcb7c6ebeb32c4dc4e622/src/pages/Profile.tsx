@@ -63,8 +63,8 @@ export default function ProfilePage() {
 
       {error && <ApiErrorAlert message={error} onDismiss={() => setError(null)} />}
 
-      <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
-        <Card className="h-fit p-6" glow>
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,320px)_minmax(0,1fr)]">
+        <Card className="h-fit p-6 sm:p-7" glow>
           <div className="flex flex-col items-center text-center">
             <div className="relative">
               <div className="absolute inset-0 -m-2 rounded-full bg-violet-600/25 blur-2xl" />

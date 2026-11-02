@@ -24,6 +24,7 @@ export default function CreateTaskPage() {
   const [description, setDescription] = React.useState('');
   const [columnId, setColumnId] = React.useState('');
   const [priority, setPriority] = React.useState('MEDIUM');
+  const [dueDate, setDueDate] = React.useState('');
   const [assignedTo, setAssignedTo] = React.useState<string | null>(null);
   const [users, setUsers] = React.useState<User[]>([]);
   const [columns, setColumns] = React.useState<Column[]>([]);
@@ -61,6 +62,7 @@ export default function CreateTaskPage() {
         description,
         columnId,
         priority: priority as 'LOW' | 'MEDIUM' | 'HIGH',
+        dueDate: dueDate || null,
         assignedTo: assignedTo || null,
       });
       navigate(`/board/${tenantId}/${boardId}`);
@@ -127,18 +129,27 @@ export default function CreateTaskPage() {
           </Select>
         </div>
 
-        <Select
-          label="Assignee"
-          value={assignedTo || ''}
-          onChange={(e) => setAssignedTo(e.target.value || null)}
-        >
-          <option value="">Unassigned</option>
-          {users.map((user) => (
-            <option key={user._id} value={user._id}>
-              {user.name} ({user.email})
-            </option>
-          ))}
-        </Select>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Input
+            label="Due date"
+            type="date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+          />
+
+          <Select
+            label="Assignee"
+            value={assignedTo || ''}
+            onChange={(e) => setAssignedTo(e.target.value || null)}
+          >
+            <option value="">Unassigned</option>
+            {users.map((user) => (
+              <option key={user._id} value={user._id}>
+                {user.name} ({user.email})
+              </option>
+            ))}
+          </Select>
+        </div>
 
         {columns.length === 0 && (
           <div className="rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3 text-xs text-amber-200">
