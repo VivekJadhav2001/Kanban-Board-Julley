@@ -1,0 +1,8 @@
+# Environment files (keep templates safe to commit)
+.env
+.env.*
+!.env.example
+
+# Dependencies and local telemetry
+node_modules/
+state.json
