@@ -2,12 +2,12 @@
 
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { tenantApi } from '@/api/tenantApi';
 import { Button } from '@/components/common/Button';
 import { Input } from '@/components/common/Input';
 import { ApiErrorAlert } from '@/components/common/ApiErrorAlert';
-import { ArrowLeft } from 'lucide-react';
+import { FormPageLayout } from '@/components/common/FormPageLayout';
+import { Layers, ArrowRight } from 'lucide-react';
 
 export default function CreateTenantPage() {
   const navigate = useNavigate();
@@ -33,36 +33,43 @@ export default function CreateTenantPage() {
   };
 
   return (
-    <div className="max-w-lg mx-auto space-y-6">
-      <div className="flex items-center justify-between">
-        <Link to={`/organization/${organizationId}`} className="flex items-center gap-2 p-2 rounded-md text-muted hover:bg-accent/10 hover:text-accent transition-colors">
-          <ArrowLeft className="h-4 w-4" />
-          Back
-        </Link>
-        <h1 className="text-2xl font-bold text-text-h">Create Tenant</h1>
-      </div>
+    <FormPageLayout
+      backTo={`/organization/${organizationId}`}
+      backLabel="Organization"
+      eyebrow="New workspace"
+      title="Create tenant"
+      description="Tenants keep boards, members, and realtime events isolated for each team."
+      icon={<Layers className="h-5 w-5" />}
+    >
+      {error && (
+        <div className="mb-5">
+          <ApiErrorAlert message={error} onDismiss={() => setError(null)} />
+        </div>
+      )}
 
-      {error && <ApiErrorAlert message={error} onDismiss={() => setError(null)} />}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <Input
-          label="Tenant Name"
+          label="Tenant name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Workspace"
+          placeholder="Product Team"
           required
         />
         <Input
           label="Slug"
           value={slug}
           onChange={(e) => setSlug(e.target.value)}
-          placeholder="workspace"
+          placeholder="product-team"
           required
         />
-        <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? 'Creating...' : 'Create Tenant'}
+        <p className="-mt-2 text-xs text-slate-500">
+          A short, unique identifier for this workspace inside the organization.
+        </p>
+        <Button type="submit" size="lg" className="w-full" disabled={loading}>
+          {loading ? 'Creating...' : 'Create tenant'}
+          {!loading && <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />}
         </Button>
       </form>
-    </div>
+    </FormPageLayout>
   );
 }

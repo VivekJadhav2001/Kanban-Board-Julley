@@ -2,12 +2,16 @@
 
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { taskApi } from '@/api/taskApi';
 import { Button } from '@/components/common/Button';
 import { Input } from '@/components/common/Input';
+import { Textarea } from '@/components/common/Textarea';
+import { Select } from '@/components/common/Select';
+import { Badge } from '@/components/common/Badge';
+import { Spinner } from '@/components/common/Spinner';
 import { ApiErrorAlert } from '@/components/common/ApiErrorAlert';
-import { ArrowLeft } from 'lucide-react';
+import { FormPageLayout } from '@/components/common/FormPageLayout';
+import { ListTodo, Save, Trash2 } from 'lucide-react';
 import type { Task } from '@/types';
 
 export default function EditTaskPage() {
@@ -72,64 +76,75 @@ export default function EditTaskPage() {
     }
   };
 
-  if (!task) {
-    return (
-      <div className="max-w-lg mx-auto py-20 text-center text-muted">
-        Loading task...
-      </div>
-    );
-  }
-
   return (
-    <div className="max-w-lg mx-auto space-y-6">
-      <div className="flex items-center justify-between">
-        <Link to={`/board/${tId}/${bId}`} className="flex items-center gap-2 p-2 rounded-md text-muted hover:bg-accent/10 hover:text-accent transition-colors">
-          <ArrowLeft className="h-4 w-4" />
-          Back
-        </Link>
-        <h1 className="text-2xl font-bold text-text-h">Edit Task</h1>
-      </div>
+    <FormPageLayout
+      backTo={`/board/${tId}/${bId}`}
+      backLabel="Board"
+      eyebrow="Edit task"
+      title="Update task"
+      description="Refine the details, adjust priority, or remove this task."
+      icon={<ListTodo className="h-5 w-5" />}
+    >
+      {error && (
+        <div className="mb-5">
+          <ApiErrorAlert message={error} onDismiss={() => setError(null)} />
+        </div>
+      )}
 
-      {error && <ApiErrorAlert message={error} onDismiss={() => setError(null)} />}
+      {!task ? (
+        <div className="py-16">
+          <Spinner label="Loading task..." />
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+              Task details
+            </p>
+            <Badge variant="secondary">v{version}</Badge>
+          </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <Input
-          label="Task Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-        <Input
-          label="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-text-h">Priority</label>
-          <select
+          <Input
+            label="Task title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+          <Textarea
+            label="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Add context, acceptance criteria, or links"
+          />
+
+          <Select
+            label="Priority"
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
           >
             <option value="LOW">Low</option>
             <option value="MEDIUM">Medium</option>
             <option value="HIGH">High</option>
-          </select>
-        </div>
-        <div className="flex items-center justify-between pt-4">
-          <Button
-            type="button"
-            onClick={handleDelete}
-            variant="destructive"
-            disabled={loading}
-          >
-            Delete Task
-          </Button>
-          <Button type="submit" className="w-auto" disabled={loading}>
-            {loading ? 'Saving...' : 'Save Changes'}
-          </Button>
-        </div>
-      </form>
-    </div>
+          </Select>
+
+          <div className="flex flex-col-reverse items-stretch justify-between gap-3 border-t border-white/[0.06] pt-5 sm:flex-row sm:items-center">
+            <Button
+              type="button"
+              onClick={handleDelete}
+              variant="destructive"
+              disabled={loading}
+              className="sm:w-auto"
+            >
+              <Trash2 className="h-4 w-4" />
+              Delete task
+            </Button>
+            <Button type="submit" disabled={loading} className="sm:w-auto">
+              {loading ? 'Saving...' : 'Save changes'}
+              {!loading && <Save className="h-4 w-4" />}
+            </Button>
+          </div>
+        </form>
+      )}
+    </FormPageLayout>
   );
 }

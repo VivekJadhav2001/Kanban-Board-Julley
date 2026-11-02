@@ -1,4 +1,4 @@
-import { X } from 'lucide-react';
+import { AlertTriangle, X } from 'lucide-react';
 
 interface ApiErrorAlertProps {
   message: string;
@@ -8,30 +8,25 @@ interface ApiErrorAlertProps {
 
 export function ApiErrorAlert({ message, statusCode, onDismiss }: ApiErrorAlertProps) {
   return (
-    <div className="rounded-md border border-red-500/50 bg-red-500/10 p-4">
-      <div className="flex">
-        <div className="flex-shrink-0">
-          <span className="inline-flex items-center justify-center rounded-md bg-red-500 p-2">
-            <X className="h-5 w-5 text-white" />
-          </span>
-        </div>
-        <div className="ml-3">
-          <p className="text-sm font-medium text-red-500">
-            {statusCode ? `Error ${statusCode}: ` : ''}{message}
-          </p>
-        </div>
-        {onDismiss && (
-          <div className="ml-auto pl-3">
-            <button
-              onClick={onDismiss}
-              className="inline-flex items-center justify-center rounded-md p-1.5 text-red-500 hover:bg-red-500/10"
-            >
-              <span className="sr-only">Dismiss</span>
-              <X className="h-5 w-5" />
-            </button>
-          </div>
-        )}
+    <div className="animate-fade-in flex items-start gap-3 rounded-2xl border border-red-500/25 bg-gradient-to-br from-red-500/15 to-red-500/5 p-4 shadow-[0_8px_30px_-12px_rgba(239,68,68,0.4)]">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-red-500/20 text-red-400">
+        <AlertTriangle className="h-4 w-4" />
       </div>
+      <div className="min-w-0 flex-1 pt-1">
+        <p className="text-sm font-medium text-red-200">
+          {statusCode ? <span className="mr-1 font-bold text-red-300">Error {statusCode}:</span> : null}
+          {message}
+        </p>
+      </div>
+      {onDismiss && (
+        <button
+          onClick={onDismiss}
+          className="rounded-lg p-1.5 text-red-400/80 transition-colors hover:bg-red-500/10 hover:text-red-300"
+          aria-label="Dismiss error"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      )}
     </div>
   );
 }

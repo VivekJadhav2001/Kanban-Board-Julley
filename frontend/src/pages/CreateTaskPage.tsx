@@ -2,14 +2,16 @@
 
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { taskApi } from '@/api/taskApi';
 import { columnApi } from '@/api/columnApi';
 import { userApi } from '@/api/userApi';
 import { Button } from '@/components/common/Button';
 import { Input } from '@/components/common/Input';
+import { Textarea } from '@/components/common/Textarea';
+import { Select } from '@/components/common/Select';
 import { ApiErrorAlert } from '@/components/common/ApiErrorAlert';
-import { ArrowLeft } from 'lucide-react';
+import { FormPageLayout } from '@/components/common/FormPageLayout';
+import { ListTodo, ArrowRight } from 'lucide-react';
 import type { User } from '@/types';
 import type { Column } from '@/types';
 
@@ -70,76 +72,85 @@ export default function CreateTaskPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
-        <Link to={`/board/${tenantId}/${boardId}`} className="flex items-center gap-2 p-2 rounded-md text-muted hover:bg-accent/10 hover:text-accent transition-colors">
-          <ArrowLeft className="h-4 w-4" />
-          Back
-        </Link>
-        <h1 className="text-2xl font-bold text-text-h">Create Task</h1>
-      </div>
+    <FormPageLayout
+      backTo={`/board/${tenantId}/${boardId}`}
+      backLabel="Board"
+      eyebrow="New task"
+      title="Create task"
+      description="Add a clear task with priority and an optional assignee."
+      icon={<ListTodo className="h-5 w-5" />}
+    >
+      {error && (
+        <div className="mb-5">
+          <ApiErrorAlert message={error} onDismiss={() => setError(null)} />
+        </div>
+      )}
 
-      {error && <ApiErrorAlert message={error} onDismiss={() => setError(null)} />}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <Input
-          label="Task Title"
+          label="Task title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Design landing page"
           required
         />
-        <Input
+        <Textarea
           label="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Add details about this task"
+          placeholder="Add context, acceptance criteria, or links"
         />
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-text-h">Column</label>
-          <select
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Select
+            label="Column"
             value={columnId}
             onChange={(e) => setColumnId(e.target.value)}
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            required
           >
             <option value="">Select a column</option>
             {columns.map((column) => (
-              <option key={column._id} value={column._id}>{column.name}</option>
+              <option key={column._id} value={column._id}>
+                {column.name}
+              </option>
             ))}
-          </select>
-          {columns.length === 0 && <p className="text-xs text-muted">Create a column before adding a task.</p>}
-        </div>
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-text-h">Priority</label>
-          <select
+          </Select>
+
+          <Select
+            label="Priority"
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <option value="LOW">Low</option>
             <option value="MEDIUM">Medium</option>
             <option value="HIGH">High</option>
-          </select>
+          </Select>
         </div>
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-text-h">Assignee</label>
-          <select
-            value={assignedTo || ''}
-            onChange={(e) => setAssignedTo(e.target.value || null)}
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          >
-            <option value="">Unassigned</option>
-            {users.map((user) => (
-              <option key={user._id} value={user._id}>
-                {user.name} ({user.email})
-              </option>
-            ))}
-          </select>
-        </div>
-        <Button type="submit" className="w-full" disabled={loading || !columnId}>
-          {loading ? 'Creating...' : 'Create Task'}
+
+        <Select
+          label="Assignee"
+          value={assignedTo || ''}
+          onChange={(e) => setAssignedTo(e.target.value || null)}
+        >
+          <option value="">Unassigned</option>
+          {users.map((user) => (
+            <option key={user._id} value={user._id}>
+              {user.name} ({user.email})
+            </option>
+          ))}
+        </Select>
+
+        {columns.length === 0 && (
+          <div className="rounded-xl border border-amber-500/25 bg-amber-500/10 px-4 py-3 text-xs text-amber-200">
+            Create a column first before adding a task.
+          </div>
+        )}
+
+        <Button type="submit" size="lg" className="w-full" disabled={loading || !columnId}>
+          {loading ? 'Creating...' : 'Create task'}
+          {!loading && <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />}
         </Button>
       </form>
-    </div>
+    </FormPageLayout>
   );
 }

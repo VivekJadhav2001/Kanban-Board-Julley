@@ -2,12 +2,13 @@
 
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { boardApi } from '@/api/boardApi';
 import { Button } from '@/components/common/Button';
 import { Input } from '@/components/common/Input';
+import { Textarea } from '@/components/common/Textarea';
 import { ApiErrorAlert } from '@/components/common/ApiErrorAlert';
-import { ArrowLeft } from 'lucide-react';
+import { FormPageLayout } from '@/components/common/FormPageLayout';
+import { Layout, ArrowRight } from 'lucide-react';
 
 export default function CreateBoardPage() {
   const navigate = useNavigate();
@@ -33,35 +34,39 @@ export default function CreateBoardPage() {
   };
 
   return (
-    <div className="max-w-lg mx-auto space-y-6">
-      <div className="flex items-center justify-between">
-        <Link to={`/tenant/${tenantId}`} className="flex items-center gap-2 p-2 rounded-md text-muted hover:bg-accent/10 hover:text-accent transition-colors">
-          <ArrowLeft className="h-4 w-4" />
-          Back
-        </Link>
-        <h1 className="text-2xl font-bold text-text-h">Create Board</h1>
-      </div>
+    <FormPageLayout
+      backTo={`/tenant/${tenantId}`}
+      backLabel="Boards"
+      eyebrow="New board"
+      title="Create board"
+      description="Give this stream of work a name and a short description."
+      icon={<Layout className="h-5 w-5" />}
+    >
+      {error && (
+        <div className="mb-5">
+          <ApiErrorAlert message={error} onDismiss={() => setError(null)} />
+        </div>
+      )}
 
-      {error && <ApiErrorAlert message={error} onDismiss={() => setError(null)} />}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <Input
-          label="Board Name"
+          label="Board name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Product Roadmap"
           required
         />
-        <Input
+        <Textarea
           label="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Optional description"
+          placeholder="What is this board for?"
         />
-        <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? 'Creating...' : 'Create Board'}
+        <Button type="submit" size="lg" className="w-full" disabled={loading}>
+          {loading ? 'Creating...' : 'Create board'}
+          {!loading && <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />}
         </Button>
       </form>
-    </div>
+    </FormPageLayout>
   );
 }

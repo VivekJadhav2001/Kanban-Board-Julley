@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuthUser, useAuthLoading } from '@/store/authStore';
+import { Spinner } from '@/components/common/Spinner';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -14,7 +15,11 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const location = useLocation();
 
   if (loading) {
-    return null;
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#0A0A0F]">
+        <Spinner label="Restoring your session..." />
+      </div>
+    );
   }
 
   if (!user) {

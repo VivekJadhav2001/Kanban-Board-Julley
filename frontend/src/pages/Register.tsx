@@ -8,7 +8,8 @@ import { authApi } from '@/api/authApi';
 import { Button } from '@/components/common/Button';
 import { Input } from '@/components/common/Input';
 import { ApiErrorAlert } from '@/components/common/ApiErrorAlert';
-import { Mail, Lock, User as UserIcon } from 'lucide-react';
+import { AuthLayout } from '@/components/layout/AuthLayout';
+import { Mail, Lock, User as UserIcon, ArrowRight } from 'lucide-react';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -44,55 +45,63 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-accent text-white mb-4">
-            <UserIcon className="h-6 w-6" />
-          </div>
-          <h2 className="text-2xl font-bold text-text-h">Create account</h2>
-          <p className="text-muted mt-2">Join Julley and start organizing your work</p>
-        </div>
-
-        {error && <ApiErrorAlert message={error} onDismiss={() => setError(null)} />}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            label="Full name"
-            type="text"
-            name="name"
-            placeholder="John Doe"
-            leftIcon={<UserIcon className="h-4 w-4 text-muted" />}
-            required
-          />
-          <Input
-            label="Email"
-            type="email"
-            name="email"
-            placeholder="you@example.com"
-            leftIcon={<Mail className="h-4 w-4 text-muted" />}
-            required
-          />
-          <Input
-            label="Password"
-            type="password"
-            name="password"
-            placeholder="•••••••• (min 8 chars)"
-            leftIcon={<Lock className="h-4 w-4 text-muted" />}
-            required
-          />
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Creating account...' : 'Create account'}
-          </Button>
-        </form>
-
-        <p className="text-center text-sm text-muted mt-6">
+    <AuthLayout
+      eyebrow="Get started"
+      title="Create your account"
+      description="Join Julley and give your team a calmer way to ship work."
+      footer={
+        <>
           Already have an account?{' '}
-          <Link to="/login" className="text-accent font-medium hover:underline">
+          <Link to="/login" className="font-semibold text-violet-400 transition-colors hover:text-violet-300">
             Sign in
           </Link>
-        </p>
-      </div>
-    </div>
+        </>
+      }
+    >
+      {error && (
+        <div className="mb-4">
+          <ApiErrorAlert message={error} onDismiss={() => setError(null)} />
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <Input
+          label="Full name"
+          type="text"
+          name="name"
+          placeholder="John Doe"
+          leftIcon={<UserIcon className="h-4 w-4" />}
+          autoComplete="name"
+          required
+        />
+        <Input
+          label="Email address"
+          type="email"
+          name="email"
+          placeholder="you@example.com"
+          leftIcon={<Mail className="h-4 w-4" />}
+          autoComplete="email"
+          required
+        />
+        <Input
+          label="Password"
+          type="password"
+          name="password"
+          placeholder="Minimum 8 characters"
+          leftIcon={<Lock className="h-4 w-4" />}
+          autoComplete="new-password"
+          required
+        />
+        <Button type="submit" variant="accent" size="lg" className="mt-2 w-full" disabled={loading}>
+          {loading ? 'Creating account...' : 'Create account'}
+          {!loading && <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />}
+        </Button>
+      </form>
+
+      <p className="mt-5 text-center text-[11px] leading-relaxed text-slate-500">
+        By creating an account you agree to keep your workspace secure and your teammates
+        respected.
+      </p>
+    </AuthLayout>
   );
 }
